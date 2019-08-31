@@ -6,7 +6,9 @@ import android.widget.ImageView
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.signature.MediaStoreSignature
 import gun0912.tedimagepicker.base.BaseRecyclerViewAdapter
+import java.io.File
 
 internal class DataBindingAdapter {
 
