@@ -16,6 +16,7 @@ internal class DataBindingAdapter {
         fun loadImage(imageView: ImageView, uri: Uri) {
             Glide.with(imageView.context)
                 .load(uri)
+                .signature(MediaStoreSignature("", File(uri.path ?: "").lastModified(), 0))
                 .thumbnail(0.1f)
                 .into(imageView)
         }
