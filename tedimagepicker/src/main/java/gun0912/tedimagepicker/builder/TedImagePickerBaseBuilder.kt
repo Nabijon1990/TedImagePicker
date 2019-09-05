@@ -91,7 +91,6 @@ open class TedImagePickerBaseBuilder<out B : TedImagePickerBaseBuilder<B>>(
                     }
                 }, { throwable -> onErrorListener?.onError(throwable.localizedMessage) })
             }
-
     }
 
     private fun onComplete(data: Intent) {
