@@ -14,8 +14,10 @@ import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.Target
+import com.bumptech.glide.signature.MediaStoreSignature
 import gun0912.tedimagepicker.R
 import gun0912.tedimagepicker.databinding.ActivityZoomOutBinding
+import java.io.File
 
 internal class TedImageZoomActivity : AppCompatActivity() {
     private lateinit var binding: ActivityZoomOutBinding
@@ -62,6 +64,7 @@ internal class TedImageZoomActivity : AppCompatActivity() {
         Glide.with(this)
             .load(uri)
             .apply(RequestOptions().dontTransform())
+            .signature(MediaStoreSignature("", File(uri.toString()).lastModified(), 0))
             .listener(listener)
             .into(binding.ivMedia)
     }

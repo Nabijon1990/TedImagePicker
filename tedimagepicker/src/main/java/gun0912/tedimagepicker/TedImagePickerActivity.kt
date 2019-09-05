@@ -60,6 +60,9 @@ internal class TedImagePickerActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setSavedInstanceState(savedInstanceState)
+
+        setupOrientation()
+
         binding = DataBindingUtil.setContentView(this, R.layout.activity_ted_image_picker)
 
         setupToolbar()
@@ -68,8 +71,7 @@ internal class TedImagePickerActivity : AppCompatActivity() {
         setupListener()
         setupSelectedMediaView()
         setupButton()
-        loadMedia()
-        setupOrientation()
+        loadMedia(true)
 
     }
 

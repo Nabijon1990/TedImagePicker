@@ -6,6 +6,7 @@
     <application>
         <activity
             android:name=".TedImagePickerActivity"
+            android:screenOrientation="behind"
             android:theme="@style/TedImagePickerTheme" />
 
         <activity
