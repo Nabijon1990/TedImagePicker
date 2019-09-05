@@ -1,5 +1,6 @@
 package gun0912.tedimagepicker.sample
 
+import android.content.pm.ActivityInfo
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
@@ -12,7 +13,6 @@ import androidx.databinding.DataBindingUtil
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import gun0912.tedimagepicker.builder.TedImagePicker
-import gun0912.tedimagepicker.builder.TedRxImagePicker
 import gun0912.tedimagepicker.sample.databinding.ActivityMainBinding
 import gun0912.tedimagepicker.sample.databinding.ItemImageBinding
 
@@ -27,15 +27,17 @@ class MainActivity : AppCompatActivity() {
 
         setNormalSingleButton()
         setNormalMultiButton()
-        setRxSingleButton()
-        setRxMultiButton()
     }
 
 
     private fun setNormalSingleButton() {
         binding.btnNormalSingle.setOnClickListener {
             TedImagePicker.with(this)
-                .start { uri -> showSingleImage(uri) }
+                .screenOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE)
+                .start (
+                    { uri -> showSingleImage(uri) },
+                    { Log.e(javaClass.simpleName, "single image selection cancelled") }
+                )
         }
     }
 
@@ -45,25 +47,13 @@ class MainActivity : AppCompatActivity() {
                 //.mediaType(MediaType.IMAGE)
                 //.scrollIndicatorDateFormat("YYYYMMDD")
                 //.buttonGravity(ButtonGravity.BOTTOM)
+                .screenOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE)
                 .errorListener { message -> Log.d("ted", "message: $message") }
                 .selectedUri(selectedUriList)
-                .startMultiImage { list: List<Uri> -> showMultiImage(list) }
-        }
-    }
-
-    private fun setRxSingleButton() {
-        binding.btnRxSingle.setOnClickListener {
-            TedRxImagePicker.with(this)
-                .start()
-                .subscribe(this::showSingleImage, Throwable::printStackTrace)
-        }
-    }
-
-    private fun setRxMultiButton() {
-        binding.btnRxMulti.setOnClickListener {
-            TedRxImagePicker.with(this)
-                .startMultiImage()
-                .subscribe(this::showMultiImage, Throwable::printStackTrace)
+                .startMultiImage(
+                    { list: List<Uri> -> showMultiImage(list) },
+                    { Log.e(javaClass.simpleName, "multi image selection cancelled") }
+                )
         }
     }
 

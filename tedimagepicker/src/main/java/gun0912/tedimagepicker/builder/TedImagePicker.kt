@@ -33,6 +33,10 @@ class TedImagePicker {
             return this
         }
 
+        fun screenOrientation(orientation: Int): Builder {
+            this.screenOrientation = orientation
+            return this
+        }
 
         fun start(onSelectedListener: OnSelectedListener) {
             this.onSelectedListener = onSelectedListener
@@ -43,18 +47,26 @@ class TedImagePicker {
 
         }
 
-        fun start(action: (Uri) -> Unit) {
+        fun start(action: (Uri) -> Unit, onCancelled: () -> Unit) {
             start(object : OnSelectedListener {
                 override fun onSelected(uri: Uri) {
                     action(uri)
                 }
+
+                override fun onSelectionCancelled() {
+                    onCancelled()
+                }
             })
         }
 
-        fun startMultiImage(action: (List<Uri>) -> Unit) {
+        fun startMultiImage(action: (List<Uri>) -> Unit, onCancelled: () -> Unit) {
             startMultiImage(object : OnMultiSelectedListener {
                 override fun onSelected(uriList: List<Uri>) {
                     action(uriList)
+                }
+
+                override fun onSelectionCancelled() {
+                    onCancelled()
                 }
             })
         }

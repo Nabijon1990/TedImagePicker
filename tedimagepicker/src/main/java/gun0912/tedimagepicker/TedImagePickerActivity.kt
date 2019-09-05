@@ -69,7 +69,12 @@ internal class TedImagePickerActivity : AppCompatActivity() {
         setupSelectedMediaView()
         setupButton()
         loadMedia()
+        setupOrientation()
 
+    }
+
+    private fun setupOrientation() {
+        requestedOrientation = builder.screenOrientation
     }
 
     private fun setupToolbar() {
@@ -99,7 +104,6 @@ internal class TedImagePickerActivity : AppCompatActivity() {
     }
 
     private fun setupButton() {
-
         binding.buttonGravity = builder.buttonGravity
         binding.buttonText = builder.buttonText ?: getString(builder.buttonTextResId)
         setupButtonVisibility()
@@ -130,19 +134,28 @@ internal class TedImagePickerActivity : AppCompatActivity() {
         uriList?.forEach { uri: Uri -> onMultiMediaClick(uri) }
 
     private fun setSavedInstanceState(savedInstanceState: Bundle?) {
+        try {
+            val bundle: Bundle? = when {
+                savedInstanceState != null -> savedInstanceState
+                else -> intent.extras
+            }
 
-        val bundle: Bundle? = when {
-            savedInstanceState != null -> savedInstanceState
-            else -> intent.extras
+            builder = bundle?.getParcelable(EXTRA_BUILDER)
+                ?: TedImagePickerBaseBuilder<TedImagePickerBaseBuilder<*>>()
+        } catch (e: Throwable) {
+            e.printStackTrace()
         }
 
-        builder = bundle?.getParcelable(EXTRA_BUILDER)
-            ?: TedImagePickerBaseBuilder<TedImagePickerBaseBuilder<*>>()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
-        outState.putParcelable(EXTRA_BUILDER, builder)
-        super.onSaveInstanceState(outState)
+        try {
+            outState.putParcelable(EXTRA_BUILDER, builder)
+            super.onSaveInstanceState(outState)
+        } catch (e: Throwable) {
+            e.printStackTrace()
+        }
+
     }
 
     private fun setupRecyclerView() {

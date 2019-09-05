@@ -5,6 +5,7 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.content.pm.ActivityInfo
 import android.net.Uri
 import android.os.Parcelable
 import androidx.annotation.ColorRes
@@ -26,6 +27,7 @@ import kotlinx.android.parcel.Parcelize
 @Suppress("UNCHECKED_CAST")
 @Parcelize
 open class TedImagePickerBaseBuilder<out B : TedImagePickerBaseBuilder<B>>(
+    var screenOrientation: Int = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED,
     internal var selectType: SelectType = SelectType.SINGLE,
     internal var mediaType: MediaType = MediaType.IMAGE,
     @ColorRes
@@ -86,22 +88,39 @@ open class TedImagePickerBaseBuilder<out B : TedImagePickerBaseBuilder<B>>(
                 TedRxOnActivityResult.with(context).startActivityForResult(this)
             }.run {
                 subscribe({ activityResult ->
-                    if (activityResult.resultCode == Activity.RESULT_OK) {
-                        onComplete(activityResult.data)
-                    }
+                    onComplete(activityResult.resultCode, activityResult.data)
                 }, { throwable -> onErrorListener?.onError(throwable.localizedMessage) })
             }
     }
 
-    private fun onComplete(data: Intent) {
-        val selectedUri =
-            TedImagePickerActivity.getSelectedUri(data)
-        val selectedUriList =
-            TedImagePickerActivity.getSelectedUriList(data)
-        when {
-            selectedUri != null -> onSelectedListener?.onSelected(selectedUri)
-            selectedUriList != null -> onMultiSelectedListener?.onSelected(selectedUriList)
-            else -> IllegalStateException("selectedUri/selectedUriList can not null")
+    private fun onComplete(resultCode: Int, data: Intent?) {
+        if (resultCode == Activity.RESULT_OK && data != null) {
+            val selectedUri =
+                TedImagePickerActivity.getSelectedUri(data)
+            val selectedUriList =
+                TedImagePickerActivity.getSelectedUriList(data)
+
+            when {
+                selectedUri != null -> onSelectedListener?.onSelected(selectedUri)
+                selectedUriList != null -> onMultiSelectedListener?.onSelected(selectedUriList)
+                else -> RuntimeException("selectedUri/selectedUriList can not be null")
+            }
+        } else if(resultCode == Activity.RESULT_CANCELED) {
+            when(data?.getIntExtra("selectionType", SelectType.SINGLE.ordinal)) {
+                SelectType.SINGLE.ordinal -> onSelectedListener?.onSelectionCancelled()
+                SelectType.MULTI.ordinal -> onMultiSelectedListener?.onSelectionCancelled()
+                else -> {
+                    try {
+                        onSelectedListener?.onSelectionCancelled()
+                    } catch (e: Throwable) {
+                        try {
+                            onMultiSelectedListener?.onSelectionCancelled()
+                        } catch (e: Throwable) {
+                            RuntimeException("Selection cancel error")
+                        }
+                    }
+                }
+            }
         }
     }
 
