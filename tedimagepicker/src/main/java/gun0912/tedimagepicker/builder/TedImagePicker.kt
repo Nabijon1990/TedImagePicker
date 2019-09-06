@@ -33,11 +33,6 @@ class TedImagePicker {
             return this
         }
 
-        fun screenOrientation(orientation: Int): Builder {
-            this.screenOrientation = orientation
-            return this
-        }
-
         fun start(onSelectedListener: OnSelectedListener) {
             this.onSelectedListener = onSelectedListener
             selectType = SelectType.SINGLE

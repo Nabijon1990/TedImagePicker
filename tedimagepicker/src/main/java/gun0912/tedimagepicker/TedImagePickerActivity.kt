@@ -397,7 +397,16 @@ internal class TedImagePickerActivity : AppCompatActivity() {
             if (isOpen()) {
                 close()
             } else {
-                super.onBackPressed()
+                val data = Intent().apply {
+                    putExtra(
+                        "selectionType",
+                        builder.selectType.ordinal
+                    )
+                }
+                setResult(Activity.RESULT_CANCELED, data)
+                finish()
+
+//                super.onBackPressed()
             }
         }
     }

@@ -144,6 +144,11 @@ open class TedImagePickerBaseBuilder<out B : TedImagePickerBaseBuilder<B>>(
         return this as B
     }
 
+    fun screenOrientation(orientation: Int): B {
+        this.screenOrientation = orientation
+        return this as B
+    }
+
     fun scrollIndicatorDateFormat(formatString: String): B {
         this.scrollIndicatorDateFormat = formatString
         return this as B
