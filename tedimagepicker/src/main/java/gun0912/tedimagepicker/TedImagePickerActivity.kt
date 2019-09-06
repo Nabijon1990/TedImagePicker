@@ -86,6 +86,9 @@ internal class TedImagePickerActivity : AppCompatActivity() {
         builder.backButtonResId.let {
             binding.toolbar.setNavigationIcon(it)
         }
+        binding.toolbar.setNavigationOnClickListener {
+            onWentBack()
+        }
 
     }
 
@@ -397,18 +400,22 @@ internal class TedImagePickerActivity : AppCompatActivity() {
             if (isOpen()) {
                 close()
             } else {
-                val data = Intent().apply {
-                    putExtra(
-                        "selectionType",
-                        builder.selectType.ordinal
-                    )
-                }
-                setResult(Activity.RESULT_CANCELED, data)
-                finish()
+                onWentBack()
 
 //                super.onBackPressed()
             }
         }
+    }
+
+    private fun onWentBack() {
+        val data = Intent().apply {
+            putExtra(
+                "selectionType",
+                builder.selectType.ordinal
+            )
+        }
+        setResult(Activity.RESULT_CANCELED, data)
+        finish()
     }
 
     override fun onDestroy() {
