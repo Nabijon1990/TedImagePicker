@@ -89,7 +89,9 @@ open class TedImagePickerBaseBuilder<out B : TedImagePickerBaseBuilder<B>>(
             }.run {
                 subscribe({ activityResult ->
                     onComplete(activityResult.resultCode, activityResult.data)
-                }, { throwable -> onErrorListener?.onError(throwable.localizedMessage) })
+                }, {
+                        throwable -> onErrorListener?.onError(throwable.localizedMessage)
+                })
             }
     }
 
