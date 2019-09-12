@@ -12,6 +12,7 @@
             android:id="@+id/iv_image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:minHeight="@dimen/ted_image_picker_album_text_max_width"
             android:layout_gravity="center"
             tools:src="@drawable/ic_camera_48dp" />
 
