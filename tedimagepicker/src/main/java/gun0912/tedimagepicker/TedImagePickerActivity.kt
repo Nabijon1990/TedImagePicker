@@ -122,7 +122,7 @@ internal class TedImagePickerActivity : AppCompatActivity() {
     }
 
     private fun loadMedia(isRefresh: Boolean = false) {
-        disposable = GalleryUtil.getMedia(this, builder.mediaType)
+        disposable = GalleryUtil.getMedia(this, builder.mediaType, builder.totalAlbumText)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe { albumList: List<Album> ->

@@ -52,6 +52,7 @@ class MainActivity : AppCompatActivity() {
                 .screenOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE)
                 .errorListener { message -> Log.d("ted", "message: $message") }
                 .selectedUri(selectedUriList)
+                .totalAlbumText("All pics")
                 .startMultiImage(
                     { list: List<Uri> -> showMultiImage(list) },
                     { Log.e(javaClass.simpleName, "multi image selection cancelled") }

@@ -41,6 +41,7 @@ open class TedImagePickerBaseBuilder<out B : TedImagePickerBaseBuilder<B>>(
     internal var titleResId: Int = R.string.ted_image_picker_title,
     internal var buttonGravity: ButtonGravity = ButtonGravity.TOP,
     internal var buttonText: String? = null,
+    internal var totalAlbumText: String? = null,
     @StringRes
     internal var buttonTextResId: Int = R.string.ted_image_picker_done,
     internal var selectedUriList: List<Uri>? = null,
@@ -184,6 +185,11 @@ open class TedImagePickerBaseBuilder<out B : TedImagePickerBaseBuilder<B>>(
 
     fun selectedUri(uriList: List<Uri>?): B {
         this.selectedUriList = uriList
+        return this as B
+    }
+
+    fun totalAlbumText(text: String): B {
+        this.totalAlbumText = text
         return this as B
     }
 

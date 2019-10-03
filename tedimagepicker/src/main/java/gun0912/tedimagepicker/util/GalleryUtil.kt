@@ -17,7 +17,7 @@ internal class GalleryUtil {
         private const val INDEX_MEDIA_URI = MediaStore.MediaColumns.DATA
         private lateinit var albumName: String
         private lateinit var dateTaken: String
-        internal fun getMedia(context: Context, mediaType: MediaType): Single<List<Album>> {
+        internal fun getMedia(context: Context, mediaType: MediaType, totalAlbumText: String? = null): Single<List<Album>> {
             return Single.create { emitter ->
                 try {
 
@@ -58,7 +58,7 @@ internal class GalleryUtil {
 
 
                         val totalAlbum = totalImageList.run {
-                            val albumName = context.getString(R.string.ted_image_picker_album_all)
+                            val albumName = totalAlbumText ?: context.getString(R.string.ted_image_picker_album_all)
                             Album(
                                 albumName,
                                 getOrElse(0) { Media(albumName, Uri.EMPTY, 0) }.uri,
