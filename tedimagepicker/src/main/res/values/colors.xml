@@ -15,8 +15,8 @@
 
     <color name="ted_image_picker_camera_background">#606060</color>
     <color name="ted_image_picker_selected_foreground">@color/black_54</color>
-    <color name="ted_image_picker_primary">#1976d2</color>
-    <color name="ted_image_picker_primary_pressed">#0956b2</color>
+    <color name="ted_image_picker_primary">#37b46d</color>
+    <color name="ted_image_picker_primary_pressed">#008341</color>
     <color name="ted_image_picker_empty_selected_background">#dedede</color>
     <color name="ted_image_picker_toolbar_background">@color/white</color>
     <color name="ted_image_picker_selected_media_clear_background">#d0909090</color>
